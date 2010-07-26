@@ -1,0 +1,11 @@
+% README
+%
+%
+
+# About
+
+Curriculum is a web-based application written in Python/Django for creating and managing curriculum in educational systems. It is intended for curricula-based communication between educational institutions and the ministry of education or some similar organization.
+
+Curriculum is initally developed for the Icelandic ministry of education, culture and science but as a free and open source software it could be useful in other countries or for other organizational units as well.
+
+Curriculum is released under The GNU Affero General Public License (AGPL), version 3 or later.
