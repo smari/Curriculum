@@ -15,3 +15,29 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.db import models
+from django.contrib.auth.models import User
+
+class School(models.Model):
+    name = models.CharField(max_length=128)
+    def __unicode__(self):
+        return self.name
+
+class Course(models.Model):
+    name = models.CharField(max_length=128)
+    description = models.TextField()
+    content = models.TextField() # Markdown field
+    goals = models.TextField() # Markdown field
+    evaluation = models.TextField() # Markdown field
+    level = models.IntegerField()
+    credits = models.IntegerField()
+    modification_date = models.DateTimeField()
+    #version_number = 
+    prerequisites = models.TextField()
+    school = models.ForeignKey(School)
+    author = models.ForeignKey(User)
+    certifier = models.ForeignKey(User, related_name='certification_set')
+    def course_id(self):
+        return ''
+
+    def __unicode__(self):
+        return ''
