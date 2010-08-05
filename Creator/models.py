@@ -19,21 +19,52 @@ from django.contrib.auth.models import User
 
 class School(models.Model):
     name = models.CharField(max_length=128)
+    
     def __unicode__(self):
         return self.name
 
-class Course(models.Model):
+class Subject(models.Model):
     name = models.CharField(max_length=128)
-    description = models.TextField()
+    def __unicode__(self):
+        return self.name
+
+class SubjectCombination(models.Model):
+    combination = models.ManyToManyField(Subject)
+    abbreviation = models.CharField(max_length=3)
+    def __unicode__(self):
+        return self.abbreviation
+
+class Topic(models.Model):
+    name = models.CharField(max_length=128)
+    subject = models.ForeignKey(SubjectCombination)
+    def __unicode__(self):
+        return self.name
+
+class TopicCombination(models.Model):
+    combination = models.ManyToManyField(Topic)
+    abbreviation = models.CharField(max_length=2)
+    def __unicode__(self):
+        return self.abbreviation
+
+class Course(models.Model):
+    LEVEL_CHOICES = ( (1, 'Level 1'),
+                      (2, 'Level 2'),
+                      (3, 'Level 3'),
+                      (4, 'Level 4'), )
+
+    subjects = models.ForeignKey(SubjectCombination)
+    description = models.TextField() # Markdown field
+    topics = models.ForeignKey(TopicCombination)
     content = models.TextField() # Markdown field
     goals = models.TextField() # Markdown field
     evaluation = models.TextField() # Markdown field
-    level = models.IntegerField()
+    level = models.IntegerField(choices=LEVEL_CHOICES)
     credits = models.IntegerField()
     modification_date = models.DateTimeField()
     #version_number = 
+    #comments = 
     prerequisites = models.TextField()
-    school = models.ForeignKey(School)
+    schools = models.ManyToManyField(School)
     author = models.ForeignKey(User)
     certifier = models.ForeignKey(User, related_name='certification_set')
     def course_id(self):
